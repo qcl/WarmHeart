@@ -13,6 +13,7 @@
 		7C1B76DD1E4A118300BB8653 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B76DB1E4A118300BB8653 /* Main.storyboard */; };
 		7C1B76DF1E4A118400BB8653 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B76DE1E4A118400BB8653 /* Assets.xcassets */; };
 		7C1B76E21E4A118400BB8653 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B76E01E4A118400BB8653 /* LaunchScreen.storyboard */; };
+		F5A86931FEB8A8FCB431C0B4 /* Pods_WarmHeart.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6031D1DC693E4EA1497ED41 /* Pods_WarmHeart.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,9 @@
 		7C1B76DE1E4A118400BB8653 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C1B76E11E4A118400BB8653 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C1B76E31E4A118400BB8653 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACDB5ABAD99692D899AF0296 /* Pods-WarmHeart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WarmHeart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WarmHeart/Pods-WarmHeart.debug.xcconfig"; sourceTree = "<group>"; };
+		D6031D1DC693E4EA1497ED41 /* Pods_WarmHeart.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WarmHeart.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDBA6EB724500411DD21C1F3 /* Pods-WarmHeart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WarmHeart.release.xcconfig"; path = "Pods/Target Support Files/Pods-WarmHeart/Pods-WarmHeart.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5A86931FEB8A8FCB431C0B4 /* Pods_WarmHeart.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +49,8 @@
 			children = (
 				7C1B76D11E4A118300BB8653 /* WarmHeart */,
 				7C1B76D01E4A118300BB8653 /* Products */,
+				CDA47CC29869BC2478F31059 /* Pods */,
+				F688038C8B93A062B84F67BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +86,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CDA47CC29869BC2478F31059 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				ACDB5ABAD99692D899AF0296 /* Pods-WarmHeart.debug.xcconfig */,
+				EDBA6EB724500411DD21C1F3 /* Pods-WarmHeart.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F688038C8B93A062B84F67BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D6031D1DC693E4EA1497ED41 /* Pods_WarmHeart.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +110,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C1B76E61E4A118400BB8653 /* Build configuration list for PBXNativeTarget "WarmHeart" */;
 			buildPhases = (
+				5575AB208604CDB5169DB6F5 /* [CP] Check Pods Manifest.lock */,
 				7C1B76CB1E4A118300BB8653 /* Sources */,
 				7C1B76CC1E4A118300BB8653 /* Frameworks */,
 				7C1B76CD1E4A118300BB8653 /* Resources */,
+				B7007D66A27DAB383FA6361C /* [CP] Embed Pods Frameworks */,
+				423E2BB6CB2AD0C27620C459 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -144,6 +171,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		423E2BB6CB2AD0C27620C459 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WarmHeart/Pods-WarmHeart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5575AB208604CDB5169DB6F5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B7007D66A27DAB383FA6361C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WarmHeart/Pods-WarmHeart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7C1B76CB1E4A118300BB8653 /* Sources */ = {
@@ -270,6 +345,7 @@
 		};
 		7C1B76E71E4A118400BB8653 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACDB5ABAD99692D899AF0296 /* Pods-WarmHeart.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = WarmHeart/Info.plist;
@@ -282,6 +358,7 @@
 		};
 		7C1B76E81E4A118400BB8653 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EDBA6EB724500411DD21C1F3 /* Pods-WarmHeart.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = WarmHeart/Info.plist;

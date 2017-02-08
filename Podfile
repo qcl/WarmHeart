@@ -4,6 +4,6 @@ use_frameworks!
 pod 'AFNetworking', '~> 3.0'
 
 target 'WarmHeart' do
-
+    pod 'Raven'
 end
 
