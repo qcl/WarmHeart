@@ -10,6 +10,7 @@
 
 #import <mach/mach.h>
 #import <assert.h>
+#import <CoreImage/CoreImage.h>
 
 float cpu_usage()
 {
@@ -78,6 +79,7 @@ float cpu_usage()
 @property (weak, nonatomic) IBOutlet UIButton *button;
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) BOOL isOn;
+@property (nonatomic, assign) CGFloat originalScreenBrightness;
 
 @end
 
@@ -88,6 +90,7 @@ float cpu_usage()
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     [self setupView];
+    [self setupNotification];
 }
 
 
@@ -102,6 +105,26 @@ float cpu_usage()
     [super viewDidAppear:animated];
     NSLog(@"view did appear");
     [self.timer fire];
+    [UIScreen mainScreen].brightness = 1.0f;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    NSLog(@"view will disappear");
+    [UIScreen mainScreen].brightness = self.originalScreenBrightness;
+}
+
+- (void)setupNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForground:) name:UIApplicationWillEnterForegroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[UIScreen mainScreen] setBrightness:self.originalScreenBrightness];
 }
 
 - (IBAction)buttonDidTap:(id)sender
@@ -136,13 +159,15 @@ float cpu_usage()
     NSLog(@"set up view");
     self.label.text = @"This is a test";
 
+    self.originalScreenBrightness = [UIScreen mainScreen].brightness;
+
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateCPUUsageLabel) userInfo:nil repeats:YES];
 }
 
 - (void)updateCPUUsageLabel
 {
     CGFloat usage = cpu_usage();
-    NSLog(@"cpu usage %f", usage);
+    //NSLog(@"cpu usage %f", usage);
     self.label.text = [NSString stringWithFormat:@"CPU Usage = %f", usage];
 }
 
@@ -157,6 +182,18 @@ float cpu_usage()
         i += 1;
     }
     return;
+}
+
+- (void)appWillEnterBackground:(NSNotification *)notfication
+{
+    NSLog(@"go to bg");
+    [UIScreen mainScreen].brightness = self.originalScreenBrightness;
+}
+
+- (void)appWillEnterForground:(NSNotification *)notfication
+{
+    NSLog(@"go to fg");
+    [[UIScreen mainScreen] setBrightness:1.0f];
 }
 
 @end
