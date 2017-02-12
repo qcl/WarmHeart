@@ -119,12 +119,14 @@ float cpu_usage()
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackground:) name:UIApplicationWillTerminateNotification object:nil];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[UIScreen mainScreen] setBrightness:self.originalScreenBrightness];
+    [UIApplication sharedApplication].idleTimerDisabled = NO;
 }
 
 - (IBAction)buttonDidTap:(id)sender
@@ -133,8 +135,10 @@ float cpu_usage()
 
     if (self.isOn) {
         [self.button setTitle:@"On" forState:UIControlStateNormal];
+        [UIApplication sharedApplication].idleTimerDisabled = YES;
     } else {
         [self.button setTitle:@"Off" forState:UIControlStateNormal];
+        [UIApplication sharedApplication].idleTimerDisabled = NO;
     }
 }
 
@@ -144,9 +148,12 @@ float cpu_usage()
     if (isOn) {
         __weak ViewController *weakSelf = (ViewController *)self;
         NSUInteger coreCount = [[NSProcessInfo processInfo] processorCount];
-        for (NSUInteger i = 0; i < coreCount; i++) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for (NSUInteger i = 0; i < coreCount/2 + 1; i++) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                 [weakSelf justAdd];
+            });
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                [weakSelf justBlurSomething];
             });
         }
     } else {
@@ -169,6 +176,13 @@ float cpu_usage()
     CGFloat usage = cpu_usage();
     //NSLog(@"cpu usage %f", usage);
     self.label.text = [NSString stringWithFormat:@"CPU Usage = %f", usage];
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        if (self.isOn && [UIScreen mainScreen].brightness < 0.99f) {
+            [UIScreen mainScreen].brightness = 1.0f;
+        }
+    } else {
+        
+    }
 }
 
 - (void)justAdd
@@ -180,6 +194,49 @@ float cpu_usage()
             break;
         }
         i += 1;
+    }
+    NSLog(@"Stoped");
+    return;
+}
+
+- (void)blurSomething
+{
+    UIImage *nothingImage = [UIImage imageNamed:@"libgf"];
+    NSUInteger scale = 20;
+    
+    UIGraphicsBeginImageContext(CGSizeMake(nothingImage.size.width * scale, nothingImage.size.height * scale));
+    [nothingImage drawInRect:CGRectMake(0, 0, nothingImage.size.width * scale, nothingImage.size.height * scale)];
+    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    EAGLContext *openGLContent = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    CIContext *content = [CIContext contextWithEAGLContext:openGLContent];
+
+    UIImage *image = scaledImage;
+    CIImage *ciImage = [CIImage imageWithCGImage:image.CGImage];
+    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
+    
+    NSLog(@"ciImage = %@", ciImage);
+    
+    [filter setValue:ciImage forKey:kCIInputImageKey];
+    [filter setValue:@(10.0f) forKey:kCIInputRadiusKey];
+    
+    CIImage *result = [filter valueForKey:kCIOutputImageKey];
+    CGImageRef ref = [content createCGImage:result fromRect:result.extent];
+    UIImage *resultImage = [UIImage imageWithCGImage:ref];
+    
+    NSLog(@"result = %@", resultImage);
+}
+
+- (void)justBlurSomething
+{
+    while (YES) {
+        if (!self.isOn) {
+            NSLog(@"STOP BLUR");
+            break;
+        }
+
+        [self blurSomething];
     }
     return;
 }
